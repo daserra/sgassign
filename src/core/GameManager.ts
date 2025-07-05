@@ -3,6 +3,7 @@ import { TaskController } from "../tasks/TaskController";
 import { AceOfShadowsController } from "../tasks/AceOfShadowsController";
 import { Stage } from "@pixi/layers";
 import { MagicWordsController } from "../tasks/MagicWordsController";
+import { PhoenixFlameController } from "../tasks/PhoenixFlameController";
 
 export enum Task {
   ACE_OF_SHADOWS,
@@ -29,7 +30,7 @@ export class GameManager {
     this._tasksControllers = {
       [Task.ACE_OF_SHADOWS]: new AceOfShadowsController(),
       [Task.MAGIC_WORDS]: new MagicWordsController(),
-      [Task.PHOENIX_FLAME]: new AceOfShadowsController(),
+      [Task.PHOENIX_FLAME]: new PhoenixFlameController(),
     };
   }
 
@@ -47,5 +48,9 @@ export class GameManager {
     const taskController = this._tasksControllers[task];
     await taskController.loadTask();
     this._application.stage.addChild(taskController.view);
+  }
+
+  get globalTicker() {
+    return this._application.ticker;
   }
 }
