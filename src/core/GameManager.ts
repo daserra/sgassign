@@ -2,6 +2,7 @@ import { Application, Assets } from "pixi.js";
 import { TaskController } from "../tasks/TaskController";
 import { AceOfShadowsController } from "../tasks/AceOfShadowsController";
 import { Stage } from "@pixi/layers";
+import { MagicWordsController } from "../tasks/MagicWordsController";
 
 export enum Task {
   ACE_OF_SHADOWS,
@@ -27,7 +28,7 @@ export class GameManager {
 
     this._tasksControllers = {
       [Task.ACE_OF_SHADOWS]: new AceOfShadowsController(),
-      [Task.MAGIC_WORDS]: new AceOfShadowsController(),
+      [Task.MAGIC_WORDS]: new MagicWordsController(),
       [Task.PHOENIX_FLAME]: new AceOfShadowsController(),
     };
   }

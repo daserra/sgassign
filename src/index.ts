@@ -8,7 +8,7 @@ async function bootstrap() {
     cardfront: "./assets/images/card_front.png",
   });
 
-  await gameManager.loadTask(Task.ACE_OF_SHADOWS);
+  await gameManager.loadTask(Task.MAGIC_WORDS);
 }
 
 bootstrap();
