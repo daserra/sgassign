@@ -5,6 +5,7 @@ import {
   fireSmokeEmitterConfig,
 } from "./Utils";
 import { Assets } from "pixi.js";
+import { UIManager } from "./core/UIManager";
 
 export const gameManager = new GameManager();
 
@@ -41,6 +42,20 @@ async function bootstrap() {
   });
 
   await gameManager.loadTask(Task.PHOENIX_FLAME);
+
+  const uiManager = new UIManager(gameManager.uiContainer);
+  uiManager.addTaskButton("Ace of Shadows", Task.ACE_OF_SHADOWS, {
+    x: 100,
+    y: 100,
+  });
+  uiManager.addTaskButton("Magic Words", Task.MAGIC_WORDS, {
+    x: 100,
+    y: 150,
+  });
+  uiManager.addTaskButton("Phoenix Flame", Task.PHOENIX_FLAME, {
+    x: 100,
+    y: 200,
+  });
 }
 
 bootstrap();

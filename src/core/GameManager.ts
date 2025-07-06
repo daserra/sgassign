@@ -1,4 +1,4 @@
-import { Application, Assets } from "pixi.js";
+import { Application, Assets, Container } from "pixi.js";
 import { TaskController } from "../tasks/TaskController";
 import { AceOfShadowsController } from "../tasks/AceOfShadowsController";
 import { Stage } from "@pixi/layers";
@@ -14,11 +14,14 @@ export enum Task {
 export class GameManager {
   private readonly _tasksControllers: Record<Task, TaskController>;
   private readonly _application: Application;
+  private _currentActiveTask: Task | undefined;
+  private _uiContainer: Container;
+  private _taskContainer: Container;
 
   constructor() {
     this._application = new Application({
-      width: 1920,
-      height: 1080,
+      width: window.innerWidth,
+      height: window.innerHeight,
       backgroundColor: 0x292826, // optional
     });
 
@@ -32,6 +35,11 @@ export class GameManager {
       [Task.MAGIC_WORDS]: new MagicWordsController(),
       [Task.PHOENIX_FLAME]: new PhoenixFlameController(),
     };
+
+    this._taskContainer = new Container();
+    this._application.stage.addChild(this._taskContainer);
+    this._uiContainer = new Container();
+    this._application.stage.addChild(this._uiContainer);
   }
 
   async loadAssets(assets: Record<string, string>) {
@@ -45,12 +53,25 @@ export class GameManager {
   }
 
   async loadTask(task: Task) {
-    const taskController = this._tasksControllers[task];
+    if (this._currentActiveTask !== undefined) {
+      await this._tasksControllers[this._currentActiveTask].closeTask();
+      this._taskContainer.removeChildren();
+    }
+    this._currentActiveTask = task;
+    const taskController = this._tasksControllers[this._currentActiveTask];
     await taskController.loadTask();
-    this._application.stage.addChild(taskController.view);
+    this.taskContainer.addChild(taskController.view);
   }
 
   get globalTicker() {
     return this._application.ticker;
+  }
+
+  get taskContainer() {
+    return this._taskContainer;
+  }
+
+  get uiContainer() {
+    return this._uiContainer;
   }
 }
