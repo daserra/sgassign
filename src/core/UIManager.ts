@@ -1,6 +1,7 @@
 import { Container, IPointData, Text } from "pixi.js";
 import { Task } from "./GameManager";
 import { gameManager } from "../index";
+import { FPSMeter } from "./FpsMeter";
 
 enum BUTTON_STATE {
   ACTIVE = "active",
@@ -31,7 +32,7 @@ export class UIManager {
   private changeAllButtonsState(state: BUTTON_STATE) {
     this._taskButtons.forEach((button) => {
       const isActive = state === BUTTON_STATE.ACTIVE;
-      button.interactive = isActive;
+      button.eventMode = isActive ? "static" : "none";
       button.style.fill = isActive ? 0xffffff : 0x8a8787;
     });
   }
@@ -48,4 +49,11 @@ export class UIManager {
     button.on("pointerdown", onClick);
     return button;
   }
+
+  createFpsMeter() {
+    const meter = new FPSMeter();
+    this._uiView.addChild(meter.view);
+  }
+
+  private fpsUpdate() {}
 }

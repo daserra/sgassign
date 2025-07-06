@@ -56,6 +56,8 @@ async function bootstrap() {
     x: 100,
     y: 200,
   });
+
+  uiManager.createFpsMeter();
 }
 
 bootstrap();
