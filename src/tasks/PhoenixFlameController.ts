@@ -1,5 +1,5 @@
 import { TaskController } from "./TaskController";
-import { Assets, Container, Filter, Sprite } from "pixi.js";
+import { Assets, Container, Filter, Sprite, TickerCallback } from "pixi.js";
 import { gameManager } from "../index";
 import { Emitter } from "@pixi/particle-emitter";
 import {
@@ -18,16 +18,27 @@ export class PhoenixFlameController implements TaskController {
     flickerTimer: 0,
     nextFlickerTime: 0,
   };
+  private _flickerEffectHandler: TickerCallback<any> | undefined;
+  private _activeEmitters: Emitter[] = [];
 
   constructor() {
     this._view = new Container();
+    this._view.eventMode = "none";
   }
 
   get view() {
     return this._view;
   }
 
-  async closeTask() {}
+  async closeTask() {
+    if (this._flickerEffectHandler) {
+      gameManager.globalTicker.remove(this._flickerEffectHandler);
+      this._flickerEffectHandler = undefined;
+      this._activeEmitters.forEach((emitter) => emitter.destroy());
+      this._activeEmitters = [];
+      this._view.removeChildren();
+    }
+  }
 
   async loadTask() {
     const background = new Sprite(Assets.get("island"));
@@ -35,7 +46,6 @@ export class PhoenixFlameController implements TaskController {
 
     this.createLightEffect(background);
 
-    this.view.eventMode = "none";
     this.createParticles();
   }
 
@@ -72,9 +82,11 @@ void main(void) {
 
     background.filters = [centerBrightFilter];
 
-    gameManager.globalTicker.add(
-      this.animateFirelight.bind(this, centerBrightFilter)
+    this._flickerEffectHandler = this.animateFirelight.bind(
+      this,
+      centerBrightFilter
     );
+    gameManager.globalTicker.add(this._flickerEffectHandler);
   }
 
   private createParticles() {
@@ -82,17 +94,19 @@ void main(void) {
     coreEmitter.emit = true;
     coreEmitter.autoUpdate = true;
     coreEmitter.updateSpawnPos(570, 560);
+    this._activeEmitters.push(coreEmitter);
 
     const emberEmitter = new Emitter(this.view, fireEmberEmitterConfig);
     emberEmitter.emit = true;
     emberEmitter.autoUpdate = true;
     emberEmitter.updateSpawnPos(590, 520);
+    this._activeEmitters.push(emberEmitter);
 
     const smokeEmitter = new Emitter(this.view, fireSmokeEmitterConfig);
     smokeEmitter.emit = true;
     smokeEmitter.autoUpdate = true;
-
     smokeEmitter.updateSpawnPos(600, 380);
+    this._activeEmitters.push(smokeEmitter);
   }
 
   private animateFirelight(centerBrightFilter: any) {

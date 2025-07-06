@@ -20,7 +20,6 @@ export class AceOfShadowsController implements TaskController {
   private readonly _view: Container;
   private _abortController: AbortController | undefined;
   private _currentTween: gsap.core.Tween | undefined;
-  private _layer = new Layer();
   private _leftStack: Sprite[] = [];
   private _rightStack: Sprite[] = [];
   private readonly _taskSettings: AceOfShadowsSettings = {
@@ -32,8 +31,6 @@ export class AceOfShadowsController implements TaskController {
 
   constructor() {
     this._view = new Container();
-    this._view.addChild(this._layer);
-    this._layer.group.enableSort = true;
   }
 
   get view() {
@@ -45,9 +42,11 @@ export class AceOfShadowsController implements TaskController {
       this._abortController?.abort();
     }
     this._currentTween?.kill();
-    this.view.removeChildren();
+    this._view.removeChildren();
     this._abortController = undefined;
+    this._leftStack.forEach((card) => (card.parentLayer = undefined));
     this._leftStack = [];
+    this._rightStack.forEach((card) => (card.parentLayer = undefined));
     this._rightStack = [];
   }
 
@@ -59,10 +58,12 @@ export class AceOfShadowsController implements TaskController {
 
   private setupCards() {
     const { leftStackInitialPosition, numberOfCards } = this._taskSettings;
-
+    const sortingLayer = new Layer();
+    sortingLayer.group.enableSort = true;
+    this._view.addChild(sortingLayer);
     for (let cardIndex = 0; cardIndex <= numberOfCards; cardIndex++) {
       const cardSprite = new Sprite(Assets.get("cardfront"));
-      cardSprite.parentLayer = this._layer;
+      cardSprite.parentLayer = sortingLayer;
       this.view.addChild(cardSprite);
       cardSprite.position.set(
         leftStackInitialPosition.x + cardIndex,
