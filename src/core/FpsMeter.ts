@@ -13,7 +13,7 @@ export class FPSMeter {
       fill: 0xffffff,
       align: "left",
     });
-    this._fpsView.position.set(20, 30);
+    this._fpsView.position.set(20, 120);
     gameManager.globalTicker.add(this.update.bind(this));
   }
 

@@ -20,8 +20,8 @@ export class GameManager {
 
   constructor() {
     this._application = new Application({
-      width: window.innerWidth,
-      height: window.innerHeight,
+      width: 1920,
+      height: 1080,
       backgroundColor: 0x292826, // optional
     });
 

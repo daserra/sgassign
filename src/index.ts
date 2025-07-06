@@ -45,16 +45,16 @@ async function bootstrap() {
 
   const uiManager = new UIManager(gameManager.uiContainer);
   uiManager.addTaskButton("Ace of Shadows", Task.ACE_OF_SHADOWS, {
-    x: 100,
-    y: 100,
+    x: 1500,
+    y: 300,
   });
   uiManager.addTaskButton("Magic Words", Task.MAGIC_WORDS, {
-    x: 100,
-    y: 150,
+    x: 1500,
+    y: 400,
   });
   uiManager.addTaskButton("Phoenix Flame", Task.PHOENIX_FLAME, {
-    x: 100,
-    y: 200,
+    x: 1500,
+    y: 500,
   });
 
   uiManager.createFpsMeter();
