@@ -23,6 +23,12 @@ export class UIManager {
     this._uiView.addChild(button);
   }
 
+  addButton(name: string, position: IPointData, onClick: () => void) {
+    const button = this.createButton(name, onClick);
+    this._uiView.addChild(button);
+    button.position.set(position.x, position.y);
+  }
+
   private async onButtonTaskClicked(task: Task) {
     this.changeAllButtonsState(BUTTON_STATE.DEACTIVATED);
     await gameManager.loadTask(task);

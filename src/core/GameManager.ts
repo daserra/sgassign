@@ -41,14 +41,9 @@ export class GameManager {
     this._application.stage.addChild(this._taskContainer);
     this._uiContainer = new Container();
     this._application.stage.addChild(this._uiContainer);
-
-    //Activate full screen by UI interaction
-    this._uiContainer.cursor = "pointer";
-    this._uiContainer.eventMode = "static";
-    this._uiContainer.on("pointerdown", this.goFullScreen.bind(this));
   }
 
-  private goFullScreen() {
+  goFullScreen() {
     const canvas = this._application.view as HTMLCanvasElement;
     if (canvas.requestFullscreen) {
       canvas.requestFullscreen();

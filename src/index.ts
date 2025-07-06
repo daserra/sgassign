@@ -61,6 +61,10 @@ async function bootstrap() {
   });
 
   uiManager.createFpsMeter();
+
+  uiManager.addButton("Go FullScreen", { x: 1500, y: 600 }, () =>
+    gameManager.goFullScreen()
+  );
 }
 
 bootstrap().then();
