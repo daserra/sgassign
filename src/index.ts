@@ -10,6 +10,7 @@ import { UIManager } from "./core/UIManager";
 export const gameManager = new GameManager();
 
 async function bootstrap() {
+  //Load assets
   await gameManager.loadAssets({
     cardtop: "./assets/images/card_top.png",
     cardfront: "./assets/images/card_front.png",
@@ -41,8 +42,10 @@ async function bootstrap() {
     },
   });
 
+  //Load initial task
   await gameManager.loadTask(Task.PHOENIX_FLAME);
 
+  //Setup UI
   const uiManager = new UIManager(gameManager.uiContainer);
   uiManager.addTaskButton("Ace of Shadows", Task.ACE_OF_SHADOWS, {
     x: 1500,
@@ -60,4 +63,4 @@ async function bootstrap() {
   uiManager.createFpsMeter();
 }
 
-bootstrap();
+bootstrap().then();

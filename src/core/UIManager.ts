@@ -54,6 +54,4 @@ export class UIManager {
     const meter = new FPSMeter();
     this._uiView.addChild(meter.view);
   }
-
-  private fpsUpdate() {}
 }

@@ -1,5 +1,4 @@
-import { EmitterConfigV1, EmitterConfigV3 } from "@pixi/particle-emitter";
-import { Assets } from "pixi.js";
+import { EmitterConfigV3 } from "@pixi/particle-emitter";
 
 export function sleepInMs(sleepTime: number) {
   return new Promise((resolve) => setTimeout(resolve, sleepTime));

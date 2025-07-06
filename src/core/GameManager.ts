@@ -25,7 +25,8 @@ export class GameManager {
       backgroundColor: 0x292826, // optional
     });
 
-    this._application.stage = new Stage();
+    this._application.stage = new Stage(); //Required for Layer library to works properly
+
     document
       .getElementById("mainDiv")
       ?.appendChild(this._application.view as HTMLCanvasElement);
@@ -41,6 +42,7 @@ export class GameManager {
     this._uiContainer = new Container();
     this._application.stage.addChild(this._uiContainer);
 
+    //Activate full screen by UI interaction
     this._uiContainer.cursor = "pointer";
     this._uiContainer.eventMode = "static";
     this._uiContainer.on("pointerdown", this.goFullScreen.bind(this));

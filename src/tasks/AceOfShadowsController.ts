@@ -51,8 +51,8 @@ export class AceOfShadowsController implements TaskController {
   }
 
   async loadTask() {
-    this.setupCards();
     this._abortController = new AbortController();
+    this.setupCards();
     this.moveCards(MOVEMENT_DIRECTION.LEFT_TO_RIGHT);
   }
 
